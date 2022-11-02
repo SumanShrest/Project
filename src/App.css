@@ -1,0 +1,48 @@
+.App {
+  box-sizing: border-box;
+}
+
+main{
+  display: flex;
+  height: 100%;
+}
+
+.leftBox{
+  flex: 50%;
+  height:100vh;
+  display: flex;
+  left:0;
+  background-color: aquamarine;
+}
+
+.rightBox{
+  flex: 50%;
+  height:100vh;
+  display: flex;
+  right:0;
+  text-align: center;
+  background-color: #61dafb;
+}
+
+.rightInnereBox{
+  display: block;
+  height: auto;
+  width: auto;
+  margin: auto;
+}
+
+img{
+  display: block;
+  width: auto;
+  height:auto;
+  margin:auto;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
