@@ -8,7 +8,9 @@ import QuizController from './QuizController';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <QuizController />
+    <div className="App">
+      <QuizController />
+    </div>
   </React.StrictMode>
 );
 

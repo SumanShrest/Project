@@ -3,21 +3,25 @@
 * Project Manager: Suman Shrestha
 * Developer: Amrita Khadgi
 * Designer: Christopher Fukuhara & Robert Gallardo
-* October 22, 2022
+* November 22, 2022
 */
 
 import {useState} from 'react';
+import quizData from './ImageData.json';
+import Begin from './Begin';
 import ImageView from './ImageView';
+import Results from './Results';
 
-// The QuizController mediates between the ImageView and DataModel, and is responsible
-// for selecting the random number that the DataModel will use to choose the image and 
+// The QuizController mediates between the Begin, ImageView, Results, and ImageData, and is responsible
+// for selecting the random number that the ImageData will use to choose the image and 
 // answer to return to the ImageView.
 
 
 const QuizController = () =>{
 
     var [activeQuestion, setActiveQuestion] = useState(newRandomNum());
-    var [pastQuestionArr, setPastQuestionArr] = useState([]);
+    var [page, setPage] = useState(1);
+    var [correctCount, setCorrectCount] = useState(0);
 
     function newRandomNum(){
         
@@ -51,8 +55,8 @@ const QuizController = () =>{
             }
         }
 
-        // We have to reassign the correct answer which is in the first 
-        // to a random position within the tempArray.
+        /*  We have to reassign the correct answer which is in the first 
+            to a random position within the tempArray. */
         let tempPos = newRandomNum();
         let temp = tempArr[tempPos];
         tempArr[tempPos] = activeQuestion;
@@ -61,27 +65,33 @@ const QuizController = () =>{
         return tempArr;
     }
 
-    // function getCorrectAnswer(){
+    /*  This handler only runs on the beginning page an tells it to change to the second page which is 
+        ImageView page */
+    const onBeginHandler = () => {
 
-    //     // This function will retrieve the correct answer for the ImageView
-    //     // to display to the user.
-    //     return 22;//DataModel.getAnswer(newRandomNum());
+        setPage(page = 2);
 
-    // }
-
-    // // Updates the amount of times that the user has answered correctly.
-    // function updateCorrectCount(){
-
-    //     ;//DataModel.setCount();
-
-    // }
+    }
 
     return (
-    <ImageView
-        activeQuestion = {activeQuestion} 
-        onSetActiveQuestion = { setActiveQuestion }
-        multiArr = { getNewMultipleChoices() }
-        randomNum = { newRandomNum }/>);
+        <div className="QuizController">
+            {page === 1 && <Begin onBeginHandler={onBeginHandler}/>}
+            {page === 2 && <ImageView
+                data = { quizData.data}
+                activeQuestion = {activeQuestion} 
+                onSetActiveQuestion = { setActiveQuestion }
+                correctCount= { correctCount }
+                setCorrectCount = { setCorrectCount }
+                page = { page }
+                setPage = { setPage }
+                newMultipleChoice = { getNewMultipleChoices() }/>}
+            {page === 3 && <Results 
+                correctCount= { correctCount }
+                setCorrectCount = { setCorrectCount }
+                page = { page }
+                setPage = { setPage }/>}
+        </div>
+    );
 };
 
 export default QuizController;
