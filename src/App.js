@@ -1,6 +1,5 @@
 
-import './App.css';
-import QuizController from './QuizController';
+import './css/App.css';
 
 function App() {
   // return (

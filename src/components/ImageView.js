@@ -3,23 +3,23 @@
 * Project Manager: Suman Shrestha
 * Developer: Amrita Khadgi
 * Designer: Christopher Fukuhara & Robert Gallardo
-* October 22, 2022
+* November 22, 2022
 */
 import React, {useState, useEffect, useRef} from "react";
 
 // The QuizController sends the new image questions and multiple choice answers
 // to display to the user.
-
-
 const ImageView  = ({ 
-  data,
+  // These variable are passed on from QuizController.
+  data,   
   activeQuestion, 
   onSetActiveQuestion,
-  correctCount, 
-  setCorrectCount,
+  totalCorrect, 
+  setTotalCorrect,
   page,
   setPage,
   newMultipleChoice,}) => {
+    // These variables are oonly used by the ImageView.
     var [selectedAnswer, setSelectedAnswer] = useState('');
     var [pastArrayQuestions, setPastArrayQuestions] = useState([activeQuestion]);
     var [numberOfQuestions, setNumberOfQuestions] = useState(1);
@@ -27,11 +27,14 @@ const ImageView  = ({
     var [correctMsg, setCorrectMsg] = useState('');
     const radiosWrapper = useRef();
     
-    
     useEffect(() => {
+
       const findCheckedInput = radiosWrapper.current.querySelector('input:checked');
+
       if(findCheckedInput) {
+
         findCheckedInput.checked = false;
+
       }
     }, [data]);
 
@@ -46,7 +49,7 @@ const ImageView  = ({
       // else it is incorrect.
       if(data[activeQuestion].correctAnswer === selectedAnswer){    
         setCorrectMsg('Correct');
-        setCorrectCount(correctCount+1);       
+        setTotalCorrect(totalCorrect+1);       
       }else{
         setCorrectMsg('Incorrect');
       }
@@ -61,7 +64,7 @@ const ImageView  = ({
         // 3. Increase the number of questions asked to the user by one.         
         if(numberOfQuestions < 5){
           
-          onSetActiveQuestion(activeQuestion = checkForDuplicate());
+          onSetActiveQuestion(checkForDuplicate());
           setSelectedAnswer(selectedAnswer = '');
           setNumberOfQuestions(numberOfQuestions+1);
         
@@ -110,7 +113,7 @@ const ImageView  = ({
       <div class="frac">
         <span>{ data[index].numerator}</span>
         <span class="symbol">/</span>
-        <span class="bottom"> {data[index].denominator}</span>
+        <span class="bottom"> { data[index].denominator }</span>
       </div>
     )
   }
@@ -160,7 +163,6 @@ const ImageView  = ({
               </ul>
             <h3 class="error"> { errorMsg } </h3>
             <button onClick={ submitBtn }>Next Question</button>
-            
           </div>
         </div>
       </main>
@@ -168,67 +170,3 @@ const ImageView  = ({
 }
 
 export default ImageView;
-
-    //Temporary location for object array. Only for temporary implementation.
-    // const imgArray = [
-    //   {imageQuestion: './images/image1.png', correctAnswer: '3/5'},
-    //   {imageQuestion: "./images/image2.png", correctAnswer: '3/8'},
-    //   {imageQuestion: "./images/image3.png", correctAnswer: '1/4'},
-    //   {imageQuestion: "./images/image4.png", correctAnswer: '1/5'},
-    //   {imageQuestion: "./images/image1.png", correctAnswer: '2/7'},
-    //   {imageQuestion: "./images/image2.png", correctAnswer: '2/3'},
-    //   {imageQuestion: "./images/image3.png", correctAnswer: '7/5'},
-    //   {imageQuestion: "./images/image4.png", correctAnswer: '4/5'},
-    //   {imageQuestion: "./images/image1.png", correctAnswer: '4/5'},
-    //   {imageQuestion: "./images/image2.png", correctAnswer: '9/5'},
-    //   {imageQuestion: "./images/image3.png", correctAnswer: '5/9'},
-    //   {imageQuestion: "./images/image4.png", correctAnswer: '1/9'},
-    // ];
-
-
-
-    
-        //updateImageView(){
-
-    //     // This function will update the image. The image will show the user 
-    //     // a fraction to answer correctly.
-    //     // Does not return a value.
-    //     QuizController.getNewImageQuestion();
-        
-    //     // Do something.
-    // }
-
-
-    // ratioBtnMultipleChoice(){
-
-    //     // Will show the user multiple choice questions to the user.
-    //     // A radio button will be assigned to each multiple choice.
-    //     // Does not return a value
-    //     QuizController.getNewMultipleChoice(); // Requests QuizController to get multiple choice
-    // }
-
-
-    // /* 
-    //     Both the updateImageView and ratioBtnMultipleChoice functions will 
-    //     work with a button event listener. A new image and 
-    //     new multiple choice answers will be chosen for the user after the user
-    //     has submitted and answer.
-    
-    // */
-
-
-    // checkIfCorrect(){
-
-    //     // This function will ask the QuizController for the correct answer
-    //     // from the DataModel.
-    //     // Using a conditional the function will find out if the user answered
-    //     // the question correctly.
-
-    //     // For example:
-    //     if(userAnswer == QuizController.getCorrectAnswer()){
-    //         // Update how many time the user has answered correctly.
-    //         QuizController.updateCorrectCount();
-    //     }
-    //     // Does not return a value.
-
-    // }

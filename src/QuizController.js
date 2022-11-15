@@ -7,21 +7,18 @@
 */
 
 import {useState} from 'react';
-import quizData from './ImageData.json';
-import Begin from './Begin';
-import ImageView from './ImageView';
-import Results from './Results';
+import quizData from './data/ImageData.json';
+import Begin from './components/Begin';
+import ImageView from './components/ImageView';
+import Results from './components/Results';
 
 // The QuizController mediates between the Begin, ImageView, Results, and ImageData, and is responsible
 // for selecting the random number that the ImageData will use to choose the image and 
 // answer to return to the ImageView.
-
-
 const QuizController = () =>{
-
     var [activeQuestion, setActiveQuestion] = useState(newRandomNum());
     var [page, setPage] = useState(1);
-    var [correctCount, setCorrectCount] = useState(0);
+    var [totalCorrect, setTotalCorrect] = useState(0);
 
     function newRandomNum(){
         
@@ -80,14 +77,14 @@ const QuizController = () =>{
                 data = { quizData.data}
                 activeQuestion = {activeQuestion} 
                 onSetActiveQuestion = { setActiveQuestion }
-                correctCount= { correctCount }
-                setCorrectCount = { setCorrectCount }
+                totalCorrect = { totalCorrect }
+                setTotalCorrect = { setTotalCorrect }
                 page = { page }
                 setPage = { setPage }
                 newMultipleChoice = { getNewMultipleChoices() }/>}
             {page === 3 && <Results 
-                correctCount= { correctCount }
-                setCorrectCount = { setCorrectCount }
+                totalCorrect = { totalCorrect }
+                setTotalCorrect = { setTotalCorrect }
                 page = { page }
                 setPage = { setPage }/>}
         </div>

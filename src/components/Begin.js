@@ -1,3 +1,10 @@
+/* 
+* Team 7 
+* Project Manager: Suman Shrestha
+* Developer: Amrita Khadgi
+* Designer: Christopher Fukuhara & Robert Gallardo
+* November 22, 2022
+*/
 import React from 'react';
 
 const Begin  = ({ onBeginHandler }) => {
