@@ -139,6 +139,10 @@ button:disabled {
 .progressBar.active{
   animation: progress 3s linear forwards;
 }
+.question-image{
+    height:230px;
+    width: 234px;
+}
 
 
 /* Styles for the Results */

@@ -142,8 +142,7 @@ const ImageView  = ({
         <div class="leftBox">
           <div class="centerContent">
             <h1 class="correct">{ correctMsg }</h1>
-            <img src={data[activeQuestion].imageQuestion} alt="Image" />
-            <h1>{ data[activeQuestion].correctAnswer }</h1>
+            <img src={data[activeQuestion].imageQuestion} class="question-image" alt="Image" />
           </div>
         </div>
 
