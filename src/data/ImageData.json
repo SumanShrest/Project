@@ -11,14 +11,14 @@
         {"imageQuestion": "./images/img9.JPG", "correctAnswer": "3/7", "numerator": "3", "denominator": "7"},
         {"imageQuestion": "./images/img10.JPG", "correctAnswer": "1/9", "numerator": "1", "denominator": "9"},
         {"imageQuestion": "./images/img11.JPG", "correctAnswer": "2/4", "numerator": "2", "denominator": "4"},
-        {"imageQuestion": "./images/image4.png", "correctAnswer": "5/8", "numerator": "5", "denominator": "8"},
-        {"imageQuestion": "./images/image4.png", "correctAnswer": "4/5", "numerator": "4", "denominator": "5"},
-        {"imageQuestion": "./images/image1.png", "correctAnswer": "1/7", "numerator": "1", "denominator": "7"},
-        {"imageQuestion": "./images/image2.png", "correctAnswer": "2/9", "numerator": "2", "denominator": "9"},
-        {"imageQuestion": "./images/image3.png", "correctAnswer": "7/9", "numerator": "7", "denominator": "9"},
-        {"imageQuestion": "./images/image4.png", "correctAnswer": "2/8", "numerator": "2", "denominator": "8"},
-        {"imageQuestion": "./images/image4.png", "correctAnswer": "3/6", "numerator": "3", "denominator": "6"},
-        {"imageQuestion": "./images/image1.png", "correctAnswer": "3/9", "numerator": "3", "denominator": "9"},
-        {"imageQuestion": "./images/image2.png", "correctAnswer": "1/2", "numerator": "1", "denominator": "2"}
+        {"imageQuestion": "./images/img12.JPG", "correctAnswer": "5/8", "numerator": "5", "denominator": "8"},
+        {"imageQuestion": "./images/img13.JPG", "correctAnswer": "4/5", "numerator": "4", "denominator": "5"},
+        {"imageQuestion": "./images/img14.JPG", "correctAnswer": "1/7", "numerator": "1", "denominator": "7"},
+        {"imageQuestion": "./images/img15.JPG", "correctAnswer": "2/9", "numerator": "2", "denominator": "9"},
+        {"imageQuestion": "./images/img16.JPG", "correctAnswer": "7/9", "numerator": "7", "denominator": "9"},
+        {"imageQuestion": "./images/img17.JPG", "correctAnswer": "2/8", "numerator": "2", "denominator": "8"},
+        {"imageQuestion": "./images/img18.JPG", "correctAnswer": "3/6", "numerator": "3", "denominator": "6"},
+        {"imageQuestion": "./images/img19.JPG", "correctAnswer": "3/9", "numerator": "3", "denominator": "9"},
+        {"imageQuestion": "./images/img20.JPG", "correctAnswer": "1/2", "numerator": "1", "denominator": "2"}
     ]
 }
