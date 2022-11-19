@@ -10,105 +10,124 @@ import React, {useState, useEffect, useRef} from "react";
 // The QuizController sends the new image questions and multiple choice answers
 // to display to the user.
 const ImageView  = ({ 
-  // These variable are passed on from QuizController.
   data,   
   activeQuestion, 
   onSetActiveQuestion,
   totalCorrect, 
   setTotalCorrect,
-  page,
-  setPage,
-  newMultipleChoice,}) => {
-    // These variables are oonly used by the ImageView.
+  currentPage,
+  setCurrentPage,
+  newMultipleChoices}) => {
+
+    /* These variables are only used by the ImageView. */
     var [selectedAnswer, setSelectedAnswer] = useState('');
-    var [pastArrayQuestions, setPastArrayQuestions] = useState([activeQuestion]);
+    var [pastQuestionsArr, setPastQuestionsArr] = useState([activeQuestion]);
     var [numberOfQuestions, setNumberOfQuestions] = useState(1);
-    var [errorMsg, setErrorMsg] = useState('');
     var [correctMsg, setCorrectMsg] = useState('');
-    const radiosWrapper = useRef();
+    var [btnDisabled, setBtnDisabled] = useState(true);
+    var [radiosDisabled, setRadiosDisabled] = useState(false);
+    const radioButtonWrapper = useRef();
+    const progress = useRef();
     
+    /*  UseEffect checks that the radio buttons become unselected after the new 
+        multiple choices are generated. */
     useEffect(() => {
 
-      const findCheckedInput = radiosWrapper.current.querySelector('input:checked');
+      const findCheckedInput = radioButtonWrapper.current.querySelector('input:checked');
 
       if(findCheckedInput) {
 
         findCheckedInput.checked = false;
 
       }
-    }, [data]);
+    }, [data]);  
 
-    const submitBtn = (e) => {
-      // If no radio button is selected this condition will
-      // return a message asking the user to choose one.
-      if(selectedAnswer === ''){
-        return setErrorMsg('Please select an answer');
-      }
+    /* Handler when a radio button is selected. */
+    const onRadioChangeHandler = (e) => {
 
-      // If the user has selected the correct question then we can add to thir correct counter.
-      // else it is incorrect.
+      // Grabs the value from the selected radio button and sets button disable to false.
+      setSelectedAnswer(e.target.value);
+      setBtnDisabled(false);
+
+    }
+
+    /* EventListener when next button is clicked. */
+    const nextBtn = (e) => {
+
+      // Both the next button and radio buttons are disabled to avoid user clicking multiple times.
+      setBtnDisabled(true);
+      setRadiosDisabled(true);
+
+      // If the user has selected the correct question then we can add to the totalCorrect counter and
+      // we inform the user that they are correct, else the user is incorrect.
       if(data[activeQuestion].correctAnswer === selectedAnswer){    
         setCorrectMsg('Correct');
-        setTotalCorrect(totalCorrect+1);       
+        setTotalCorrect(totalCorrect+1);   
       }else{
         setCorrectMsg('Incorrect');
       }
 
-      // Resets the error message to empty
-      setErrorMsg(errorMsg = '');
+      // Adds CSS style called "active" to progessBar class. The progress bar will show the user that 
+      // in 3 seconds they will see a new question. 
+      progress.current.classList.add("active");
 
       setTimeout(() => {
-        // If the number of questions answered is less than 4 this condition will:
-        // 1. Choose a new question to ask the user. 
-        // 2. Reset the radio button selected answer.
-        // 3. Increase the number of questions asked to the user by one.         
+
+        /*  If the number of questions answered is less than 5 this condition will:
+            1.  Choose a new question to ask the user. 
+            2.  Reset the radio button selected answer value to empty.
+            3.  Increase the number of questions asked by one. We need to keep track of the
+                amount of questions the user has been asked since they will only see 5 questions. */
         if(numberOfQuestions < 5){
           
-          onSetActiveQuestion(checkForDuplicate());
+          onSetActiveQuestion(checkForDuplicateQuestion());
           setSelectedAnswer(selectedAnswer = '');
           setNumberOfQuestions(numberOfQuestions+1);
         
         }else{
 
-          setNumberOfQuestions(numberOfQuestions = 0);
-          setPastArrayQuestions(pastArrayQuestions = []);
-          setPage(page = 3);
+        /*  Else if the number of questionos is 5 then the condition will:
+            1. Reset the number of questions asked back to zero.
+            2. Empty the past question array.
+            3. Change to the third page to show the user the amount of questions they have answered correctly.*/
+          setPastQuestionsArr(pastQuestionsArr = []);
+          setCurrentPage(3);
 
         }
-        setCorrectMsg('');
 
-        }, 3000);
+        setCorrectMsg('');// Reset the correct or incorrect message to empty.
+        
+        // Removes CSS style called "active" from progessBar class. 
+        progress.current.classList.remove("active");
+        setRadiosDisabled(false);
+
+      }, 3000);// Wait 3 seconds before moving on. 
     }
 
-    // This function makes sure that there are no duplicate answers.
-    function checkForDuplicate(){
+    // This function makes sure that there are no duplicate questions randomly chosen.
+    function checkForDuplicateQuestion(){
 
-      let currentQuestion;
+      let tempQuestion;
 
-      // Continue selecting a random number and assign it to currentQuestion while currentQuestion is included 
-      // in the array called "pastArrayQuestion".
-      // Otherwise, if it is not included in the "pastArrayQuestions" then it has not been asked and we can 
-      // break from the loop.
+      /*  Continue selecting a random number and assign it to tempQuestion. While tempQuestion is included 
+          in the array called "pastQuestionsArr".
+          Otherwise, if it is not included in the "pastQuestionsArr" then it has not been asked and we can 
+          break from the loop. */
       do{
       
-        currentQuestion = Math.floor(Math.random()*20);
+        tempQuestion = Math.floor(Math.random()*20);
 
-      }while(pastArrayQuestions.includes(currentQuestion));
+      }while(pastQuestionsArr.includes(tempQuestion));
 
-      setPastArrayQuestions((oldArray) => oldArray.concat(currentQuestion));
+      // Adds the tempQuestion to the "pastQuestionsArr" to keep track of in the future.
+      setPastQuestionsArr((oldArray) => oldArray.concat(tempQuestion));
 
-      return currentQuestion;
-
-    }
-
-    const onRadioChangeHandler = (e) => {
-
-      // Grabs the value from the selected radio button. 
-      setSelectedAnswer(e.target.value);
+      return tempQuestion;
 
     }
     
-  function fracEqualParts(index){
+  /* This function is only used to make the fractions aesthetically pleasing. */
+  function fractions(index){
     return (
       <div class="frac">
         <span>{ data[index].numerator}</span>
@@ -119,54 +138,46 @@ const ImageView  = ({
   }
 
     return (
-      <main> 
+      <main className="imageView"> 
         <div class="leftBox">
           <div class="centerContent">
             <h1 class="correct">{ correctMsg }</h1>
-            <img src={data[activeQuestion].imageQuestion} alt="image" />
+            <img src={data[activeQuestion].imageQuestion} alt="Image" />
             <h1>{ data[activeQuestion].correctAnswer }</h1>
           </div>
         </div>
 
         <div class="rightBox">
-          <div className="centerContent">
+          <div class="centerContent">
             <h1>Question #{ numberOfQuestions }. Solve the fraction.</h1>
                 
-              <ul ref={radiosWrapper}>
-                <li>
+              <div id="radioWrapper" ref={radioButtonWrapper}>
                 <label>
-                  <input type="radio" name="answer" value={data[newMultipleChoice[0]].correctAnswer} key={newMultipleChoice[0]} onChange={ onRadioChangeHandler }/>
-                  { fracEqualParts(newMultipleChoice[0]) }
+                  <input type="radio" name="answer" disabled={ radiosDisabled } value={data[newMultipleChoices[0]].correctAnswer} key={newMultipleChoices[0]} onChange={ onRadioChangeHandler }/>
+                  { fractions(newMultipleChoices[0]) }
                 </label>
-                </li>
                 
-                <li>
                 <label>
-                  <input type="radio" name="answer" value={data[newMultipleChoice[1]].correctAnswer} key={newMultipleChoice[1]}  onChange={ onRadioChangeHandler }/>
-                  { fracEqualParts(newMultipleChoice[1]) }
+                  <input type="radio" name="answer" disabled={ radiosDisabled } value={data[newMultipleChoices[1]].correctAnswer} key={newMultipleChoices[1]}  onChange={ onRadioChangeHandler }/>
+                  { fractions(newMultipleChoices[1]) }
                 </label>
-                </li>
 
-                <li>
                 <label>
-                  <input type="radio" name="answer" value={data[newMultipleChoice[2]].correctAnswer} key={newMultipleChoice[2]} onChange={ onRadioChangeHandler }/>
-                  {  fracEqualParts(newMultipleChoice[2]) }
+                  <input type="radio" name="answer" disabled={ radiosDisabled } value={data[newMultipleChoices[2]].correctAnswer} key={newMultipleChoices[2]} onChange={ onRadioChangeHandler }/>
+                  { fractions(newMultipleChoices[2]) }
                 </label>
-                </li>
 
-                <li>
                 <label>
-                  <input type="radio" name="answer" value={data[newMultipleChoice[3]].correctAnswer} key={newMultipleChoice[3]} onChange={ onRadioChangeHandler }/>
-                  {  fracEqualParts(newMultipleChoice[3]) }
+                  <input type="radio" name="answer" disabled={ radiosDisabled } value={data[newMultipleChoices[3]].correctAnswer} key={newMultipleChoices[3]} onChange={ onRadioChangeHandler }/>
+                  { fractions(newMultipleChoices[3]) }
                 </label>
-                </li>
-              </ul>
-            <h3 class="error"> { errorMsg } </h3>
-            <button onClick={ submitBtn }>Next Question</button>
+              </div>
+            <button onClick={ nextBtn } disabled={ btnDisabled }>Next Question</button>
+            <div className="progressBar" ref={ progress }></div>
           </div>
         </div>
       </main>
     );
-}
+};
 
 export default ImageView;

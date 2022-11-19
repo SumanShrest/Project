@@ -1,14 +1,21 @@
+/* 
+* Team 7 
+* Project Manager: Suman Shrestha
+* Developer: Amrita Khadgi
+* Designer: Christopher Fukuhara & Robert Gallardo
+* November 22, 2022
+*/
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import './css/index.css';
+import './css/App.css';
 import reportWebVitals from './reportWebVitals';
 import QuizController from './QuizController';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <div className="App">
+    <div className="QuizController">
       <QuizController />
     </div>
   </React.StrictMode>

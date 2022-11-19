@@ -17,44 +17,46 @@ import Results from './components/Results';
 // answer to return to the ImageView.
 const QuizController = () =>{
     var [activeQuestion, setActiveQuestion] = useState(newRandomNum());
-    var [page, setPage] = useState(1);
+    var [currentPage, setCurrentPage] = useState(1);
     var [totalCorrect, setTotalCorrect] = useState(0);
 
     function newRandomNum(){
         
-        // This function will run "Math.Random() * 19" and update the new random number to select 
+        // This function will run "Math.Random() * 20" and update the new random number to select 
         // which position from the DataModel image array to choose from. The random number will be between 
         // 0 - 19 since there are 20 imaage questions within the DataModel array.
 
-        return Math.floor(Math.random()*4);
+        return Math.floor(Math.random()*20);
 
     }
 
 
-    // This function creates a new set of multiple choice answers to send along with
-    // the question and correct answer.
+    /*  This function generates a new set of multiple choice answers to send along with
+        the every new question and correct answer. */
     function getNewMultipleChoices(){
 
         // Temporary array will hold the 4 random multiple choices. It is initiated with the 
-        // first correct answer.
+        // current active answer.
         let tempArr = [activeQuestion];
         let count = 1;
 
-        // Will loop around four times. Will be changed to loop 20 times.
+        // Loop around three times to find the multiple choices.
         while(count < 4){
 
-            // With every iteration a new currentValue is created 
+            // With every iteration a new random currentValue is created. 
             let currentValue = newRandomNum();
             
-            //Checks the array for duplicates.
+            /*  This condition checks the array for any duplicates: 
+                If the tempArr does not have the currentValue, then add it to the array and increase
+                the count varialble. */
             if(!tempArr.includes(currentValue)){
                 tempArr[count++] = currentValue;
             }
         }
 
-        /*  We have to reassign the correct answer which is in the first 
+        /*  We have to reassign the correct answer which was set in the first position,
             to a random position within the tempArray. */
-        let tempPos = newRandomNum();
+        let tempPos = Math.floor(Math.random()*4);;
         let temp = tempArr[tempPos];
         tempArr[tempPos] = activeQuestion;
         tempArr[0] = temp;
@@ -63,30 +65,30 @@ const QuizController = () =>{
     }
 
     /*  This handler only runs on the beginning page an tells it to change to the second page which is 
-        ImageView page */
-    const onBeginHandler = () => {
+        ImageView page, after the user clicks the start button. */
+    const onStartHandler = () => {
 
-        setPage(page = 2);
+        setCurrentPage(2);
 
     }
 
     return (
         <div className="QuizController">
-            {page === 1 && <Begin onBeginHandler={onBeginHandler}/>}
-            {page === 2 && <ImageView
-                data = { quizData.data}
-                activeQuestion = {activeQuestion} 
+            {currentPage === 1 && <Begin onStartHandler={ onStartHandler }/>}
+            {currentPage === 2 && <ImageView
+                data = { quizData.data }
+                activeQuestion = { activeQuestion } 
                 onSetActiveQuestion = { setActiveQuestion }
                 totalCorrect = { totalCorrect }
                 setTotalCorrect = { setTotalCorrect }
-                page = { page }
-                setPage = { setPage }
-                newMultipleChoice = { getNewMultipleChoices() }/>}
-            {page === 3 && <Results 
+                currentPage = { currentPage }
+                setCurrentPage = { setCurrentPage }
+                newMultipleChoices = { getNewMultipleChoices() }/>}
+            {currentPage === 3 && <Results 
                 totalCorrect = { totalCorrect }
                 setTotalCorrect = { setTotalCorrect }
-                page = { page }
-                setPage = { setPage }/>}
+                currentPage = { currentPage }
+                setCurrentPage = { setCurrentPage }/>}
         </div>
     );
 };

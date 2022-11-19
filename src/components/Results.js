@@ -5,14 +5,25 @@
 * Designer: Christopher Fukuhara & Robert Gallardo
 * November 22, 2022
 */
+
+/* This is the third page which will shos the user the amount of questions they have answered correctly.*/
 const Results  = ({
+  /* These variable are passed on from QuizController. */
   totalCorrect,
   setTotalCorrect,
-    page,
-    setPage
+  currentPage,
+  setCurrentPage
 }) => {
 
-  function message(total){
+  const myStyle={
+    backgroundImage: "url('./images/star_bg.png')",
+    backgroundSize: 'auto',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+  };
+
+  /* This function will return a message depending on the amount of correct questions the user has answered. */
+  function resultMessage(total){
     if(total <= 2){
       return 'How about we try again.'
     }
@@ -26,27 +37,27 @@ const Results  = ({
 
   const retryBtn = (e) => {
 
-    setTotalCorrect(0);
-    setPage(page = 2);
+    setTotalCorrect(0);// Resets total correct back to zero.
+    setCurrentPage(currentPage = 2); // Sends user back to page 2 to retry quiz. 
 
   }
 
   return (
     <main> 
       <div class="leftBox">
-        <div className="centerContent">
+        <div class="centerContent" style={ myStyle }>
           <h1>You got</h1>
           <div class="frac">
             <span>{totalCorrect}</span>
             <span class="symbol">/</span>
             <span class="bottom">5</span>
           </div>
-          <h1>{message(totalCorrect)}</h1>
+          <h1>{resultMessage(totalCorrect)}</h1>
         </div>
       </div>
 
       <div class="rightBox">
-        <div className="centerContent">
+        <div class="centerContent">
 
           <button onClick={ retryBtn }>More Pratice</button>
           

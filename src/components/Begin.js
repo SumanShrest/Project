@@ -7,12 +7,14 @@
 */
 import React from 'react';
 
-const Begin  = ({ onBeginHandler }) => {
+// This is the intial page that the user will see. If the user selects the start button
+// then the questions will begin.
+const Begin  = ({ onStartHandler }) => {
     return(
         <main>
-            <div className="centerContent">
+            <div class="centerContent">
                 <h1 class="startH1">Are you ready to start?</h1>
-                <button class="startBtn" onClick={onBeginHandler}>Start</button>
+                <button onClick={onStartHandler}>Start</button>
             </div>
         </main>
     );
